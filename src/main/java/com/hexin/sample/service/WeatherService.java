@@ -16,6 +16,9 @@ package com.hexin.sample.service;
 
 import com.hexin.sample.entity.Weather;
 import com.baomidou.mybatisplus.service.IService;
+
+import java.util.List;
+
 /**
 * 描述： 服务实现层接口
 * @author sky
@@ -27,5 +30,8 @@ public interface WeatherService extends IService<Weather> {
 	boolean insertWeather(Weather weather);
 
 	void insertByCity(String cityname);
+
 	void test();
+
+	List<Weather> getTest();
 }

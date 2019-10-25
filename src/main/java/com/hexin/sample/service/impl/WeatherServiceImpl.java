@@ -22,10 +22,7 @@ import com.hexin.sample.common.Citys;
 import com.hexin.sample.entity.*;
 import com.hexin.sample.mapper.WeatherMapper;
 import com.hexin.sample.service.*;
-import com.hexin.sample.tool.Decode;
-import com.hexin.sample.tool.HttpUtils2;
-import com.hexin.sample.tool.TimeTool;
-import com.hexin.sample.tool.UnicodeUtils;
+import com.hexin.sample.tool.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.jsoup.Connection;
@@ -69,6 +66,8 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
 
     @Autowired
     InfluxDBService influxDBService;
+
+
 
     @Override
     public void insertData() {
@@ -190,6 +189,13 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
     @Override
     public void test() {
         influxDBService.insertRow();
+    }
+
+    @Override
+    public List<Weather> getTest() {
+        InfluxDbUtils2<Weather> influxDbUtils2=new InfluxDbUtils2<Weather>("123456","xj","http://localhost:8086","Real_AQI",null);
+        List<Weather> list=influxDbUtils2.querylist(Weather.class,"SELECT * FROM weather WHERE time > '2019-10-17 19:00:00'");
+        return list;
     }
 
 //    public Data getEachHourData(){

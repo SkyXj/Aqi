@@ -13,12 +13,15 @@
 
 package com.hexin.sample.controller;
 
+import com.hexin.sample.entity.Weather;
 import com.hexin.sample.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/weather")
@@ -37,6 +40,11 @@ public class WeatherController{
 		String time=((endTime-startTime)/1000)+"s";
 		System.out.println(time);
 		return time;
+	}
+
+	@GetMapping("/getTest")
+	public List<Weather> getTest(){
+		return weatherService.getTest();
 	}
 
 	@GetMapping("/testbycityname")
