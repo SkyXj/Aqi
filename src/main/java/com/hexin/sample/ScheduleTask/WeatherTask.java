@@ -2,6 +2,7 @@ package com.hexin.sample.ScheduleTask;
 
 import com.hexin.sample.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,6 +15,9 @@ import java.time.LocalDateTime;
 @EnableScheduling   // 2.开启定时任务
 public class WeatherTask {
 
+    @Value("${aqi.run.task}")
+    boolean isruntask;
+
     @Autowired
     WeatherService weatherService;
 
@@ -22,8 +26,9 @@ public class WeatherTask {
     //或直接指定时间间隔，例如：20分钟
     @Scheduled(fixedRate = 1000*60*20)
     private void Point_Aqi_Tasks() {
-        System.err.println("执行静态定时任务时间: " + LocalDateTime.now());
-        weatherService.insertData();
+        if(isruntask){
+            weatherService.insertData();
+        }
     }
 
 

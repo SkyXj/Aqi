@@ -22,6 +22,7 @@ import com.hexin.sample.service.CityinfoService;
 import com.hexin.sample.tool.ExcelUtils;
 import com.hexin.sample.tool.InfluxDbUtils;
 import com.hexin.sample.tool.TimeTool;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.formula.functions.Rows;
@@ -94,7 +95,8 @@ public class PointServiceImpl extends ServiceImpl<PointMapper, Point> implements
         //获取各个控点的数据
         String sql="SELECT * FROM aqi_point WHERE time > '"
                 + StringUtils.trim(startTime) + "' and time < '" + StringUtils.trim(endTime)+"'"
-                + (StringUtils.isBlank(pointname)?"":(" and pointname='" + StringUtils.trim(pointname) + "'"))
+//                + (StringUtils.isBlank(pointname)?"":(" and pointname='" + StringUtils.trim(pointname) + "'"))
+                + pointnameSql(pointname)
                 + (StringUtils.isBlank(cityid)?"":(" and cityid='" + StringUtils.trim(cityid) + "'"));
 
 
@@ -202,6 +204,23 @@ public class PointServiceImpl extends ServiceImpl<PointMapper, Point> implements
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    private String pointnameSql(String pointnames){
+        String result=" and ( 1!=1 ";
+        if(StringUtils.isBlank(pointnames)){
+           return "";
+        }
+        if(pointnames.indexOf(',')<0){
+            return " and pointname='"+pointnames+"'";
+        }
+        String[] strs = pointnames.split(",");
+        for (String pointname : strs) {
+            result+="or pointname= '"+pointname+"' ";
+        }
+        result+=")";
+        return result;
     }
 
     /***整理列名、行数据***/
