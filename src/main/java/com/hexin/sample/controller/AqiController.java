@@ -25,6 +25,6 @@ public class AqiController{
 //	AqiService aqiService;
 	@GetMapping("/test")
     public String test(){
-	    return "成功";
+	    return "成功1";
     }
 }
