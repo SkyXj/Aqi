@@ -140,7 +140,9 @@ public class PointServiceImpl extends ServiceImpl<PointMapper, Point> implements
         for (String key:map.keySet()){
             Row row=new Row();
             List<AqiYz> listtmp=map.get(key);
-            if(listtmp==null||listtmp.size()<=0) continue;
+            if (listtmp == null || listtmp.size() <= 0) {
+                continue;
+            }
             row.setSo2(listtmp.stream().filter(s->s.getYz().equals("so2")).collect(Collectors.toList()).get(0).getValue());
             row.setNo2(listtmp.stream().filter(s->s.getYz().equals("no2")).collect(Collectors.toList()).get(0).getValue());
             row.setCo(listtmp.stream().filter(s->s.getYz().equals("co")).collect(Collectors.toList()).get(0).getValue());
