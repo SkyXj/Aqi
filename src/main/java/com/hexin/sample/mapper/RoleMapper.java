@@ -1,8 +1,8 @@
 package com.hexin.sample.mapper;
 
+import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.hexin.sample.model.RoleDto;
 import com.hexin.sample.model.UserDto;
-import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * @author dolyw.com
  * @date 2018/8/31 14:42
  */
-public interface RoleMapper extends Mapper<RoleDto> {
+public interface RoleMapper extends BaseMapper<RoleDto> {
     /**
      * 根据User查询Role
      * @param userDto

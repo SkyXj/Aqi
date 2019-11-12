@@ -16,6 +16,8 @@ package com.hexin.sample.controller;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.hexin.sample.entity.Point;
 import com.hexin.sample.service.PointService;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,7 @@ public class PointController{
 
 
 	@GetMapping("/excel")
+//	@RequiresPermissions(logical = Logical.AND, value = {"user:view"})
 	public void excelExport(HttpServletResponse response,
 							@RequestParam String startTime,
 							@RequestParam String endTime,

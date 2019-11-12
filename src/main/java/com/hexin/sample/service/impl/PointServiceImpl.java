@@ -148,6 +148,8 @@ public class PointServiceImpl extends ServiceImpl<PointMapper, Point> implements
             row.setCo(listtmp.stream().filter(s->s.getYz().equals("co")).collect(Collectors.toList()).get(0).getValue());
             row.setO3(listtmp.stream().filter(s->s.getYz().equals("03")).collect(Collectors.toList()).get(0).getValue());
             row.setAqi(listtmp.stream().filter(s->s.getYz().equals("aqi")).collect(Collectors.toList()).get(0).getValue());
+            row.setPm2_5(listtmp.stream().filter(s->s.getYz().equals("pm_25")).collect(Collectors.toList()).get(0).getValue());
+            row.setPm10(listtmp.stream().filter(s->s.getYz().equals("pm_10")).collect(Collectors.toList()).get(0).getValue());
             row.setPointname(listtmp.get(0).getPointname());
             row.setTime(listtmp.get(0).getTime());
             rows.add(row);
@@ -174,19 +176,23 @@ public class PointServiceImpl extends ServiceImpl<PointMapper, Point> implements
             row.createCell(4).setCellValue(aqi.getCo());
             row.createCell(5).setCellValue(aqi.getO3());
             row.createCell(6).setCellValue(aqi.getAqi());
+            row.createCell(7).setCellValue(aqi.getPm2_5());
+            row.createCell(8).setCellValue(aqi.getPm10());
             //天气信息
             List<Weather> weathers = weatherList.stream().filter(t -> t.getTime().equals(aqi.getTime())).collect(Collectors.toList());
-            if(weathers==null||weathers.size()<=0) continue;
+            if(weathers==null||weathers.size()<=0) {
+                continue;
+            }
             //temp
-            row.createCell(7).setCellValue(weathers.get(0).getTemp());
+            row.createCell(9).setCellValue(weathers.get(0).getTemp());
             //RH
-            row.createCell(8).setCellValue(weathers.get(0).getHumi());
+            row.createCell(10).setCellValue(weathers.get(0).getHumi());
             //wd
-            row.createCell(9).setCellValue(weathers.get(0).getWd());
+            row.createCell(11).setCellValue(weathers.get(0).getWd());
             //ws
-            row.createCell(10).setCellValue(weathers.get(0).getWs());
+            row.createCell(12).setCellValue(weathers.get(0).getWs());
             //p
-            row.createCell(11).setCellValue(weathers.get(0).getPressure());
+            row.createCell(13).setCellValue(weathers.get(0).getPressure());
 
 //            HSSFCell cell = row.createCell(3);
 //            cell.setCellValue(user.getCreate_time());

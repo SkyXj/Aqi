@@ -1,6 +1,7 @@
 package com.hexin.sample.service;
 
 
+import com.baomidou.mybatisplus.service.IService;
 import com.hexin.sample.model.UserDto;
 
 /**
@@ -8,5 +9,5 @@ import com.hexin.sample.model.UserDto;
  * @author dolyw.com
  * @date 2018/8/9 15:44
  */
-public interface IUserService extends IBaseService<UserDto> {
+public interface IUserService extends IService<UserDto> {
 }

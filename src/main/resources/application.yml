@@ -1,12 +1,12 @@
 spring:
     datasource:
         name: aqi
-        url: jdbc:mysql://127.0.0.1:3306/shirojwt?useSSL=false&useUnicode=true&characterEncoding=UTF-8
-        username: root
-        password: 123456
+#        url: jdbc:mysql://127.0.0.1:3306/weather?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT
+#        username: root
+#        password: 123456
         # 使用Druid数据源
         type: com.alibaba.druid.pool.DruidDataSource
-        driver-class-name: com.mysql.jdbc.Driver
+        driver-class-name: com.mysql.cj.jdbc.Driver
         druid:
             filters: stat
             maxActive: 20
@@ -32,7 +32,7 @@ mybatis:
     # Mybatis配置Mapper路径
     mapper-locations: classpath:mapper/*.xml
     # Mybatis配置Model类对应
-    type-aliases-package: com.hexin.sample.model.entity
+    type-aliases-package: com.hexin.sample
 
 pagehelper:
     params: count=countSql

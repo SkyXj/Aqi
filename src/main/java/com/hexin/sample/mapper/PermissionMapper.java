@@ -1,9 +1,9 @@
 package com.hexin.sample.mapper;
 
 
+import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.hexin.sample.model.PermissionDto;
 import com.hexin.sample.model.RoleDto;
-import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @author dolyw.com
  * @date 2018/8/31 14:42
  */
-public interface PermissionMapper extends Mapper<PermissionDto> {
+public interface PermissionMapper extends BaseMapper<PermissionDto> {
     /**
      * 根据Role查询Permission
      * @param roleDto

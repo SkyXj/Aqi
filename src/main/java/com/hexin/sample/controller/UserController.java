@@ -1,5 +1,6 @@
 package com.hexin.sample.controller;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hexin.sample.exception.CustomException;
@@ -72,7 +73,7 @@ public class UserController {
             baseDto.setRows(10);
         }
         PageHelper.startPage(baseDto.getPage(), baseDto.getRows());
-        List<UserDto> userDtos = userService.selectAll();
+        List<UserDto> userDtos = userService.selectList(null);
         PageInfo<UserDto> selectPage = new PageInfo<UserDto>(userDtos);
         if (userDtos == null || userDtos.size() <= 0) {
             throw new CustomException("查询失败(Query Failure)");
@@ -102,7 +103,9 @@ public class UserController {
                 String[] strArray = key.split(":");
                 UserDto userDto = new UserDto();
                 userDto.setAccount(strArray[strArray.length - 1]);
-                userDto = userService.selectOne(userDto);
+                EntityWrapper<UserDto> wrapper=new EntityWrapper<>();
+                wrapper.eq("account",strArray[strArray.length - 1]);
+                userDto = userService.selectOne(wrapper);
                 // 设置登录时间
                 userDto.setLoginTime(new Date(Long.parseLong(JedisUtil.getObject(key).toString())));
                 userDtos.add(userDto);
@@ -126,7 +129,9 @@ public class UserController {
         // 查询数据库中的帐号信息
         UserDto userDtoTemp = new UserDto();
         userDtoTemp.setAccount(userDto.getAccount());
-        userDtoTemp = userService.selectOne(userDtoTemp);
+        EntityWrapper<UserDto> wrapper=new EntityWrapper<>();
+        wrapper.eq("account",userDto.getAccount());
+        userDtoTemp = userService.selectOne(wrapper);
         if (userDtoTemp == null) {
             throw new CustomUnauthorizedException("该帐号不存在(The account does not exist.)");
         }
@@ -213,7 +218,7 @@ public class UserController {
     @GetMapping("/{id}")
     @RequiresPermissions(logical = Logical.AND, value = {"user:view"})
     public ResponseBean findById(@PathVariable("id") Integer id) {
-        UserDto userDto = userService.selectByPrimaryKey(id);
+        UserDto userDto = userService.selectById(id);
         if (userDto == null) {
             throw new CustomException("查询失败(Query Failure)");
         }
@@ -233,7 +238,9 @@ public class UserController {
         // 判断当前帐号是否存在
         UserDto userDtoTemp = new UserDto();
         userDtoTemp.setAccount(userDto.getAccount());
-        userDtoTemp = userService.selectOne(userDtoTemp);
+        EntityWrapper<UserDto> wrapper=new EntityWrapper<>();
+        wrapper.eq("account",userDto.getAccount());
+        userDtoTemp = userService.selectOne(wrapper);
         if (userDtoTemp != null && StringUtil.isNotBlank(userDtoTemp.getPassword())) {
             throw new CustomUnauthorizedException("该帐号已存在(Account exist.)");
         }
@@ -244,8 +251,8 @@ public class UserController {
         }
         String key = AesCipherUtil.enCrypto(userDto.getAccount() + userDto.getPassword());
         userDto.setPassword(key);
-        int count = userService.insert(userDto);
-        if (count <= 0) {
+        boolean count = userService.insert(userDto);
+        if (count) {
             throw new CustomException("新增失败(Insert Failure)");
         }
         return new ResponseBean(HttpStatus.OK.value(), "新增成功(Insert Success)", userDto);
@@ -264,7 +271,9 @@ public class UserController {
         // 查询数据库密码
         UserDto userDtoTemp = new UserDto();
         userDtoTemp.setAccount(userDto.getAccount());
-        userDtoTemp = userService.selectOne(userDtoTemp);
+        EntityWrapper<UserDto> wrapper=new EntityWrapper<>();
+        wrapper.eq("account",userDto.getAccount());
+        userDtoTemp = userService.selectOne(wrapper);
         if (userDtoTemp == null) {
             throw new CustomUnauthorizedException("该帐号不存在(Account not exist.)");
         } else {
@@ -279,8 +288,8 @@ public class UserController {
             String key = AesCipherUtil.enCrypto(userDto.getAccount() + userDto.getPassword());
             userDto.setPassword(key);
         }
-        int count = userService.updateByPrimaryKeySelective(userDto);
-        if (count <= 0) {
+        boolean count = userService.updateById(userDto);
+        if (count) {
             throw new CustomException("更新失败(Update Failure)");
         }
         return new ResponseBean(HttpStatus.OK.value(), "更新成功(Update Success)", userDto);
@@ -296,8 +305,8 @@ public class UserController {
     @DeleteMapping("/{id}")
     @RequiresPermissions(logical = Logical.AND, value = {"user:edit"})
     public ResponseBean delete(@PathVariable("id") Integer id) {
-        int count = userService.deleteByPrimaryKey(id);
-        if (count <= 0) {
+        boolean count = userService.deleteById(id);
+        if (count) {
             throw new CustomException("删除失败，ID不存在(Deletion Failed. ID does not exist.)");
         }
         return new ResponseBean(HttpStatus.OK.value(), "删除成功(Delete Success)", null);
@@ -313,7 +322,7 @@ public class UserController {
     @DeleteMapping("/online/{id}")
     @RequiresPermissions(logical = Logical.AND, value = {"user:edit"})
     public ResponseBean deleteOnline(@PathVariable("id") Integer id) {
-        UserDto userDto = userService.selectByPrimaryKey(id);
+        UserDto userDto = userService.selectById(id);
         if (JedisUtil.exists(Constant.PREFIX_SHIRO_REFRESH_TOKEN + userDto.getAccount())) {
             if (JedisUtil.delKey(Constant.PREFIX_SHIRO_REFRESH_TOKEN + userDto.getAccount()) > 0) {
                 return new ResponseBean(HttpStatus.OK.value(), "剔除成功(Delete Success)", null);
