@@ -9,7 +9,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
   </resultMap>
 
-  <select id="findRoleByUser" resultType="com.hexin.sample.model.RoleDto" parameterType="com.hexin.sample.model.UserDto">
+  <select id="findRoleByUser" resultMap="BaseResultMap" parameterType="com.hexin.sample.model.UserDto">
     SELECT
       r.id as id,
       r.name as name

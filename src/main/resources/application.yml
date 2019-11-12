@@ -30,9 +30,9 @@ spring:
 
 mybatis:
     # Mybatis配置Mapper路径
-    mapper-locations: classpath:mapper/*.xml
+    mapper-locations: classpath:mapper/*Mapper.xml
     # Mybatis配置Model类对应
-    type-aliases-package: com.hexin.sample
+    type-aliases-package: com.hexin.sample.entity,com.hexin.sample.model
 
 pagehelper:
     params: count=countSql

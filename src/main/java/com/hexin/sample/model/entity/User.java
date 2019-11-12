@@ -1,5 +1,7 @@
 package com.hexin.sample.model.entity;
 
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hexin.sample.model.valid.group.UserEditValidGroup;
 import com.hexin.sample.model.valid.group.UserLoginValidGroup;
@@ -18,7 +20,7 @@ import java.util.Date;
  * @author dolyw.com
  * @date 2018/8/31 14:43
  */
-@Table(name = "user")
+@TableName(value = "user")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 3342723124953988435L;
@@ -53,6 +55,7 @@ public class User implements Serializable {
      */
     @Column(name = "reg_time")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @TableField(value="reg_time")
     private Date regTime;
 
     /**

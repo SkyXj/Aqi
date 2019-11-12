@@ -1,5 +1,7 @@
 package com.hexin.sample.model.entity;
 
+import com.baomidou.mybatisplus.annotations.TableField;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -27,12 +29,14 @@ public class RolePermission implements Serializable {
      * 角色id
      */
     @Column(name = "role_id")
+    @TableField(value = "role_id")
     private Integer roleId;
 
     /**
      * 权限id
      */
     @Column(name = "permission_id")
+    @TableField(value = "permission_id")
     private Integer permissionId;
 
     /**

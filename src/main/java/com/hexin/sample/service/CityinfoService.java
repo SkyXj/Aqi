@@ -16,6 +16,9 @@ package com.hexin.sample.service;
 
 import com.hexin.sample.entity.Cityinfo;
 import com.baomidou.mybatisplus.service.IService;
+
+import java.util.List;
+
 /**
 * 描述： 服务实现层接口
 * @author sky
@@ -25,4 +28,6 @@ public interface CityinfoService extends IService<Cityinfo> {
 	 boolean insertCityinfo(Cityinfo cityinfo);
 
 	 String getCityIdByName(String name);
+
+	 List<Cityinfo> selectAll();
 }

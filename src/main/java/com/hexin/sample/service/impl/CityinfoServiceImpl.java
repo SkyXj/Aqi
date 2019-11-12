@@ -8,6 +8,8 @@ import com.hexin.sample.mapper.CityinfoMapper;
 import com.hexin.sample.service.CityinfoService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
 * 描述： 服务实现层
 * @author sky
@@ -40,5 +42,10 @@ public class CityinfoServiceImpl extends ServiceImpl<CityinfoMapper, Cityinfo> i
         }else{
             return null;
         }
+    }
+
+    @Override
+    public List<Cityinfo> selectAll() {
+        return selectAll();
     }
 }

@@ -18,7 +18,9 @@ import com.hexin.sample.entity.Cityinfo;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CityinfoMapper extends BaseMapper<Cityinfo>{
-
+    List<Cityinfo> selectAll();
 }

@@ -1,5 +1,7 @@
 package com.hexin.sample.model;
 
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hexin.sample.model.entity.User;
 
@@ -12,13 +14,14 @@ import java.util.Date;
  * @author dolyw.com
  * @date 2018/8/30 10:34
  */
-@Table(name = "user")
+@TableName(value = "user")
 public class UserDto extends User {
     /**
      * 登录时间
      */
     @Transient
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @TableField(exist = false)
     private Date loginTime;
 
     public Date getLoginTime() {

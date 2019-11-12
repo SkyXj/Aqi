@@ -13,6 +13,7 @@
 
 package com.hexin.sample.controller;
 
+import com.hexin.sample.entity.Cityinfo;
 import com.hexin.sample.service.CityinfoService;
 import com.hexin.sample.tool.HttpUtils2;
 import org.jsoup.Connection;
@@ -28,6 +29,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @RestController
 @RequestMapping("/cityinfo")
@@ -61,6 +63,12 @@ public class CityinfoController{
 		outStream.close();
 		inStream.close();
 		return outStream.toByteArray();
+	}
+
+	@GetMapping("/test")
+	public List<Cityinfo> selectAll(){
+		List<Cityinfo> cityinfos = cityinfoService.selectAll();
+		return cityinfos;
 	}
 
 }
