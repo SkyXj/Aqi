@@ -15,13 +15,15 @@
 package com.hexin.sample.service.impl;
 
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import com.hexin.sample.entity.Aqi;
 import com.hexin.sample.mapper.AqiMapper;
 import com.hexin.sample.service.AqiService;
 
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import java.util.Collection;
+
 
 /**
 * 描述： 服务实现层
@@ -31,18 +33,17 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 @Service
 public class AqiServiceImpl extends ServiceImpl<AqiMapper, Aqi> implements AqiService{
 
-
     @Override
     public boolean insetAqi(Aqi aqi) {
-        EntityWrapper<Aqi> wrapper=new EntityWrapper<>();
+        QueryWrapper<Aqi> wrapper=new QueryWrapper<>();
         wrapper.eq("time",aqi.getTime());
         wrapper.eq("city",aqi.getCity());
-        int i = selectCount(wrapper);
+        int i = baseMapper.selectCount(wrapper);
         if(i>0) {
             return false;
         }else {
-            boolean insert = insert(aqi);
-            return insert;
+            int insert = baseMapper.insert(aqi);
+            return insert>0;
         }
     }
 }

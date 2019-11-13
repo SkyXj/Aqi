@@ -1,6 +1,7 @@
 package com.hexin.sample.util;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hexin.sample.exception.CustomException;
 import com.hexin.sample.mapper.UserMapper;
 import com.hexin.sample.model.UserDto;
@@ -37,7 +38,9 @@ public class UserUtil {
         String account = JwtUtil.getClaim(token, Constant.ACCOUNT);
         UserDto userDto = new UserDto();
         userDto.setAccount(account);
-        userDto = userMapper.selectOne(userDto);
+        QueryWrapper<UserDto> wrapper=new QueryWrapper<>();
+        wrapper.eq("account",account);
+        userDto = userMapper.selectOne(wrapper);
         // 用户是否存在
         if (userDto == null) {
             throw new CustomException("该帐号不存在(The account does not exist.)");

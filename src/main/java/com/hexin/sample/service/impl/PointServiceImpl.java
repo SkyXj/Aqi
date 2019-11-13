@@ -15,8 +15,11 @@
 package com.hexin.sample.service.impl;
 
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
 import com.hexin.sample.entity.*;
 import com.hexin.sample.service.CityinfoService;
 import com.hexin.sample.tool.ExcelUtils;
@@ -34,7 +37,6 @@ import org.springframework.stereotype.Service;
 import com.hexin.sample.mapper.PointMapper;
 import com.hexin.sample.service.PointService;
 
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -59,17 +61,17 @@ public class PointServiceImpl extends ServiceImpl<PointMapper, Point> implements
 
     @Override
     public boolean insertPoint(Point point) {
-        EntityWrapper<Point> wrapper=new EntityWrapper<>();
+        QueryWrapper<Point> wrapper=new QueryWrapper<>();
         wrapper.eq("cityname",point.getCityname());
         //有些点是没有pointgid
 //        wrapper.eq("pointgid",point.getPointgid());
         wrapper.eq("pointname",point.getPointname());
-        int i = selectCount(wrapper);
+        int i = baseMapper.selectCount(wrapper);
         if(i>0) {
             return false;
         }else {
-            boolean insert = insert(point);
-            return insert;
+            int insert = baseMapper.insert(point);
+            return insert>0;
         }
     }
 
@@ -282,16 +284,17 @@ public class PointServiceImpl extends ServiceImpl<PointMapper, Point> implements
     }
 
     @Override
-    public Page<Point> list(Integer pagenum,Integer pagesize,String cityname,String pointname) {
-        int count = selectCount(null);
-        EntityWrapper<Point> wrapper=new EntityWrapper<>();
+    public IPage<Point> list(Integer pagenum, Integer pagesize, String cityname, String pointname) {
+        int count = baseMapper.selectCount(null);
+        QueryWrapper<Point> wrapper=new QueryWrapper<>();
         if(!StringUtils.isBlank(cityname)){
             wrapper.eq("cityname",cityname);
         }
         if(!StringUtils.isBlank(pointname)){
             wrapper.eq("pointname",pointname);
         }
-        Page<Point> pointPage = selectPage(new Page<Point>(pagenum, pagesize),wrapper);
+        IPage<Point> pageparam=new Page<Point>(pagenum.longValue(), pagesize.longValue());
+        IPage<Point> pointPage = baseMapper.selectPage(pageparam,wrapper);
         pointPage.setTotal(count);
         return pointPage;
     }

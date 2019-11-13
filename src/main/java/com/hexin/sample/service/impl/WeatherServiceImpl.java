@@ -16,8 +16,8 @@ package com.hexin.sample.service.impl;
 
 
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hexin.sample.common.Citys;
 import com.hexin.sample.entity.*;
 import com.hexin.sample.mapper.WeatherMapper;
@@ -117,15 +117,15 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
 
     @Override
     public boolean insertWeather(Weather weather) {
-        EntityWrapper<Weather> wrapper=new EntityWrapper<>();
+        QueryWrapper<Weather> wrapper=new QueryWrapper<>();
         wrapper.eq("time",weather.getTime());
         wrapper.eq("cityid",weather.getCityid());
-        int i = selectCount(wrapper);
+        int i = baseMapper.selectCount(wrapper);
         if(i>0) {
             return false;
         }else {
-            boolean insert = insert(weather);
-            return insert;
+            int insert = baseMapper.insert(weather);
+            return insert>0;
         }
     }
 

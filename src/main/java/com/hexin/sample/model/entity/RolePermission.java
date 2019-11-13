@@ -1,6 +1,8 @@
 package com.hexin.sample.model.entity;
 
-import com.baomidou.mybatisplus.annotations.TableField;
+//import com.baomidou.mybatisplus.annotations.TableField;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;

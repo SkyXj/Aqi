@@ -1,11 +1,12 @@
 package com.hexin.sample.service.impl;
 
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hexin.sample.entity.Cityinfo;
 import com.hexin.sample.mapper.CityinfoMapper;
 import com.hexin.sample.service.CityinfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,26 +18,30 @@ import java.util.List;
 */
 @Service
 public class CityinfoServiceImpl extends ServiceImpl<CityinfoMapper, Cityinfo> implements CityinfoService{
+
+    @Autowired
+    CityinfoMapper cityinfoMapper;
+
     @Override
     public boolean insertCityinfo(Cityinfo cityinfo) {
-        EntityWrapper<Cityinfo> wrapper=new EntityWrapper<>();
+        QueryWrapper<Cityinfo> wrapper=new QueryWrapper<>();
 //        wrapper.eq("cityid",cityinfo.getCityid());
 //        wrapper.eq("citygid",cityinfo.getCitygid());
         wrapper.eq("cityname",cityinfo.getCityname());
-        int i = selectCount(wrapper);
+        int i = baseMapper.selectCount(wrapper);
         if(i>0) {
             return false;
         }else {
-            boolean insert = insert(cityinfo);
-            return insert;
+            int insert = baseMapper.insert(cityinfo);
+            return insert>0;
         }
     }
 
     @Override
     public String getCityIdByName(String name) {
-        EntityWrapper<Cityinfo> wrapper=new EntityWrapper<>();
+        QueryWrapper<Cityinfo> wrapper=new QueryWrapper<>();
         wrapper.eq("cityname",name);
-        Cityinfo cityinfo = selectOne(wrapper);
+        Cityinfo cityinfo = baseMapper.selectOne(wrapper);
         if(cityinfo!=null){
             return cityinfo.getCityid();
         }else{
@@ -46,6 +51,11 @@ public class CityinfoServiceImpl extends ServiceImpl<CityinfoMapper, Cityinfo> i
 
     @Override
     public List<Cityinfo> selectAll() {
-        return selectAll();
+        return cityinfoMapper.selectAll();
+    }
+
+    @Override
+    public Cityinfo selectOne() {
+        return baseMapper.selectOne(null);
     }
 }

@@ -65,10 +65,16 @@ public class CityinfoController{
 		return outStream.toByteArray();
 	}
 
-	@GetMapping("/test")
+	@GetMapping(value="/test1")
 	public List<Cityinfo> selectAll(){
 		List<Cityinfo> cityinfos = cityinfoService.selectAll();
 		return cityinfos;
+	}
+
+	@GetMapping(value="/one")
+	public Cityinfo selectOne(){
+		Cityinfo cityinfo = cityinfoService.selectOne();
+		return cityinfo;
 	}
 
 }

@@ -1,7 +1,7 @@
 package com.hexin.sample.service.impl;
 
 
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hexin.sample.mapper.UserMapper;
 import com.hexin.sample.model.UserDto;
 import com.hexin.sample.service.IUserService;

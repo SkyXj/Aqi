@@ -13,12 +13,12 @@
 
 package com.hexin.sample.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.hexin.sample.entity.Point;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PointMapper extends BaseMapper<Point>{
+public interface PointMapper extends BaseMapper<Point> {
 
 }

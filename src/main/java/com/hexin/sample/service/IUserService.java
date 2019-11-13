@@ -1,7 +1,7 @@
 package com.hexin.sample.service;
 
 
-import com.baomidou.mybatisplus.service.IService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.hexin.sample.model.UserDto;
 
 /**

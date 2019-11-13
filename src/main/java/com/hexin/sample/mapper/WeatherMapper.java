@@ -13,12 +13,12 @@
 
 package com.hexin.sample.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.hexin.sample.entity.Weather;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface WeatherMapper extends BaseMapper<Weather>{
+public interface WeatherMapper extends BaseMapper<Weather> {
 
 }

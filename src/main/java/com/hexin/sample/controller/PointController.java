@@ -13,7 +13,7 @@
 
 package com.hexin.sample.controller;
 
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.hexin.sample.entity.Point;
 import com.hexin.sample.service.PointService;
 import org.apache.shiro.authz.annotation.Logical;
@@ -45,10 +45,10 @@ public class PointController{
 	}
 
 	@GetMapping("/list")
-	public Page<Point> list(@RequestParam Integer pagenum,
-							@RequestParam Integer pagesize,
-							@RequestParam(required = false) String cityname,
-							@RequestParam(required = false) String pointname){
+	public IPage<Point> list(@RequestParam Integer pagenum,
+							   @RequestParam Integer pagesize,
+							   @RequestParam(required = false) String cityname,
+							   @RequestParam(required = false) String pointname){
 		return pointService.list(pagenum,pagesize,cityname,pointname);
 	}
 }

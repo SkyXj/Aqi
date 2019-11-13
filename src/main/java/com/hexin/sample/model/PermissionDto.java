@@ -1,7 +1,7 @@
 package com.hexin.sample.model;
 
 
-import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.hexin.sample.model.entity.Permission;
 import javax.persistence.Table;
 

@@ -14,9 +14,9 @@
 package com.hexin.sample.service;
 
 
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.hexin.sample.entity.Point;
-import com.baomidou.mybatisplus.service.IService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -33,5 +33,5 @@ public interface PointService extends IService<Point> {
 
 	void excelExport(HttpServletResponse response,String startTime, String endTime, String pointname,String cityname);
 
-	Page<Point> list(Integer pagenum,Integer pagesize,String cityname,String pointname);
+	IPage<Point> list(Integer pagenum, Integer pagesize, String cityname, String pointname);
 }

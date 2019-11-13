@@ -14,14 +14,15 @@
 package com.hexin.sample.service;
 
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.hexin.sample.entity.Aqi;
-import com.baomidou.mybatisplus.service.IService;
 /**
 * 描述： 服务实现层接口
 * @author sky
 * @date 2019-09-24 19:05:59
 */
 public interface AqiService extends IService<Aqi> {
+
 	boolean insetAqi(Aqi aqi);
 	
 	//Page<Aqi> listAqi(Integer pageNumber, Integer pageSize,String keyword);

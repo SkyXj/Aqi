@@ -1,6 +1,7 @@
 package com.hexin.sample.config.shiro;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hexin.sample.config.shiro.jwt.JwtToken;
 import com.hexin.sample.mapper.PermissionMapper;
 import com.hexin.sample.mapper.RoleMapper;
@@ -95,7 +96,9 @@ public class UserRealm extends AuthorizingRealm {
         // 查询用户是否存在
         UserDto userDto = new UserDto();
         userDto.setAccount(account);
-        userDto = userMapper.selectOne(userDto);
+        QueryWrapper<UserDto> wrapper=new QueryWrapper<>();
+        wrapper.eq("account",account);
+        userDto = userMapper.selectOne(wrapper);
         if (userDto == null) {
             throw new AuthenticationException("该帐号不存在(The account does not exist.)");
         }

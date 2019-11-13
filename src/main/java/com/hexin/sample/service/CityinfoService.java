@@ -14,8 +14,8 @@
 package com.hexin.sample.service;
 
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.hexin.sample.entity.Cityinfo;
-import com.baomidou.mybatisplus.service.IService;
 
 import java.util.List;
 
@@ -30,4 +30,6 @@ public interface CityinfoService extends IService<Cityinfo> {
 	 String getCityIdByName(String name);
 
 	 List<Cityinfo> selectAll();
+
+	 Cityinfo selectOne();
 }
