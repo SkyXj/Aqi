@@ -19,8 +19,8 @@ import redis.clients.jedis.JedisPoolConfig;
  * @author dolyw.com
  * @date 2018/9/5 10:35
  */
-@Configuration
-//@Component
+//@Configuration
+@Component
 @EnableAutoConfiguration
 @PropertySource("classpath:config.properties")
 @ConfigurationProperties(prefix = "redis")

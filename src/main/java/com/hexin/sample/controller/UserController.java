@@ -3,6 +3,7 @@ package com.hexin.sample.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hexin.sample.annotation.SystemControllerLog;
 import com.hexin.sample.exception.CustomException;
 import com.hexin.sample.exception.CustomUnauthorizedException;
 import com.hexin.sample.model.UserDto;
@@ -125,6 +126,7 @@ public class UserController {
      * @date 2018/8/30 16:21
      */
     @PostMapping("/login")
+    @SystemControllerLog(description = "登录")
     public ResponseBean login(@Validated(UserLoginValidGroup.class) @RequestBody UserDto userDto, HttpServletResponse httpServletResponse) {
         // 查询数据库中的帐号信息
         UserDto userDtoTemp = new UserDto();
