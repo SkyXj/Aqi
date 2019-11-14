@@ -18,7 +18,6 @@ import com.hexin.sample.entity.Point;
 
 import org.springframework.stereotype.Repository;
 
-@Repository
 public interface PointMapper extends BaseMapper<Point> {
 
 }

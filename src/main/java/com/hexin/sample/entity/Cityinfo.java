@@ -22,6 +22,8 @@ import javax.persistence.*;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
 * 描述：模型
 * @author sky
@@ -29,7 +31,7 @@ import lombok.Data;
 */
 @Data
 @TableName("aqi_city")
-public class Cityinfo{
+public class Cityinfo implements Serializable {
 	/**
 	 * 
 	 */

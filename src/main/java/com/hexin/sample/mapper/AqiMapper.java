@@ -18,7 +18,6 @@ import com.hexin.sample.entity.Aqi;
 
 import org.springframework.stereotype.Repository;
 
-@Repository
 public interface AqiMapper extends BaseMapper<Aqi> {
 
 }

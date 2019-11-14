@@ -31,5 +31,5 @@ public interface CityinfoService extends IService<Cityinfo> {
 
 	 List<Cityinfo> selectAll();
 
-	 Cityinfo selectOne();
+//	 Cityinfo selectOne();
 }

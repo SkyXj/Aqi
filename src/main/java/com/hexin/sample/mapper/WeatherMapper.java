@@ -18,7 +18,6 @@ import com.hexin.sample.entity.Weather;
 
 import org.springframework.stereotype.Repository;
 
-@Repository
 public interface WeatherMapper extends BaseMapper<Weather> {
 
 }

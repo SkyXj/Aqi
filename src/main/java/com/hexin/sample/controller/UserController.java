@@ -1,8 +1,8 @@
 package com.hexin.sample.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hexin.sample.exception.CustomException;
 import com.hexin.sample.exception.CustomUnauthorizedException;
 import com.hexin.sample.model.UserDto;
@@ -72,15 +72,15 @@ public class UserController {
             baseDto.setPage(1);
             baseDto.setRows(10);
         }
-        PageHelper.startPage(baseDto.getPage(), baseDto.getRows());
-        List<UserDto> userDtos = userService.list(null);
-        PageInfo<UserDto> selectPage = new PageInfo<UserDto>(userDtos);
+        IPage<UserDto> page=new Page<>(baseDto.getPage(), baseDto.getRows());
+        IPage<UserDto> selectPage =userService.page(page,null);
+        List<UserDto> userDtos=selectPage.getRecords();
         if (userDtos == null || userDtos.size() <= 0) {
             throw new CustomException("查询失败(Query Failure)");
         }
         Map<String, Object> result = new HashMap<String, Object>(16);
         result.put("count", selectPage.getTotal());
-        result.put("data", selectPage.getList());
+        result.put("data", userDtos);
         return new ResponseBean(HttpStatus.OK.value(), "查询成功(Query was successful)", result);
     }
 

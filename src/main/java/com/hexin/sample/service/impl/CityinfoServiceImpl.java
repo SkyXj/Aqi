@@ -54,8 +54,8 @@ public class CityinfoServiceImpl extends ServiceImpl<CityinfoMapper, Cityinfo> i
         return cityinfoMapper.selectAll();
     }
 
-    @Override
-    public Cityinfo selectOne() {
-        return baseMapper.selectOne(null);
-    }
+//    @Override
+//    public Cityinfo selectOne() {
+//        return cityinfoMapper.selectOne(new QueryWrapper<>());
+//    }
 }

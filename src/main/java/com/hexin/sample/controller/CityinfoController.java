@@ -71,10 +71,10 @@ public class CityinfoController{
 		return cityinfos;
 	}
 
-	@GetMapping(value="/one")
-	public Cityinfo selectOne(){
-		Cityinfo cityinfo = cityinfoService.selectOne();
-		return cityinfo;
+	@GetMapping(value="/list")
+	public List<Cityinfo> one(){
+		List<Cityinfo> list = cityinfoService.list(null);
+		return list;
 	}
 
 }
