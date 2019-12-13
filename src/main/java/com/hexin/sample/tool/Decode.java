@@ -10,7 +10,7 @@ import java.io.*;
 
 public class Decode {
 //    @Value("${js.path}")
-    private String jspath="js/decode.js";
+    private String jspath="../js/decode.js";
 
     private ScriptEngine engine=null;
 
