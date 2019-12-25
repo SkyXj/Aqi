@@ -13,6 +13,8 @@
 
 package com.hexin.sample.controller;
 
+import com.hexin.sample.annotation.AccessLimit;
+import com.hexin.sample.annotation.SystemControllerLog;
 import com.hexin.sample.entity.Cityinfo;
 import com.hexin.sample.service.CityinfoService;
 import com.hexin.sample.tool.HttpUtils2;
@@ -29,6 +31,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -66,8 +69,10 @@ public class CityinfoController{
 	}
 
 	@GetMapping(value="/test1")
+//	@SystemControllerLog(description = "查找所有城市名称")
+	@AccessLimit(seconds = 5000,maxCount = 1,needLogin = false)
 	public List<Cityinfo> selectAll(){
-		List<Cityinfo> cityinfos = cityinfoService.selectAll();
+		List<Cityinfo> cityinfos = new ArrayList<>();
 		return cityinfos;
 	}
 

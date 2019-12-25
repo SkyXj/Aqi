@@ -94,6 +94,7 @@ public class UserController {
      */
     @GetMapping("/online")
     @RequiresPermissions(logical = Logical.AND, value = {"user:view"})
+    @SystemControllerLog(description="在线用户")
     public ResponseBean online() {
         List<Object> userDtos = new ArrayList<Object>();
         // 查询所有Redis键
@@ -126,7 +127,7 @@ public class UserController {
      * @date 2018/8/30 16:21
      */
     @PostMapping("/login")
-    @SystemControllerLog(description = "登录")
+//    @SystemControllerLog(description = "登录")
     public ResponseBean login(@Validated(UserLoginValidGroup.class) @RequestBody UserDto userDto, HttpServletResponse httpServletResponse) {
         // 查询数据库中的帐号信息
         UserDto userDtoTemp = new UserDto();

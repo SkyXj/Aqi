@@ -10,7 +10,7 @@ import java.io.*;
 
 public class Decode {
 //    @Value("${js.path}")
-    private String jspath="../js/decode.js";
+    private String jspath="js/decode.js";
 
     private ScriptEngine engine=null;
 
@@ -25,6 +25,9 @@ public class Decode {
             //如果js存在文件里，举例
 
             File file=new File(jspath);
+            if(!file.exists()){
+                file=new File("../"+jspath);
+            }
 //            ClassPathResource aesJs = new ClassPathResource(jspath);
 //            InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream(jspath);
 //            Resource aesJs = new ClassPathResource(jspath,this.getClass().getClassLoader());

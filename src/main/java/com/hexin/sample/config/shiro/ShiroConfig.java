@@ -3,12 +3,15 @@ package com.hexin.sample.config.shiro;
 
 import com.hexin.sample.config.shiro.cache.CustomCacheManager;
 import com.hexin.sample.config.shiro.jwt.JwtFilter;
+import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +24,7 @@ import java.util.Map;
 
 /**
  * Shiro配置
+ *
  * @author dolyw.com
  * @date 2018/8/30 15:49
  */
@@ -30,6 +34,7 @@ public class ShiroConfig {
     /**
      * 配置使用自定义Realm，关闭Shiro自带的session
      * 详情见文档 http://shiro.apache.org/session-management.html#SessionManagement-StatelessApplications%28Sessionless%29
+     *
      * @param userRealm
      * @return org.apache.shiro.web.mgt.DefaultWebSecurityManager
      * @author dolyw.com
@@ -49,6 +54,8 @@ public class ShiroConfig {
         defaultWebSecurityManager.setSubjectDAO(subjectDAO);
         // 设置自定义Cache缓存
         defaultWebSecurityManager.setCacheManager(new CustomCacheManager());
+
+//        defaultWebSecurityManager.setRememberMeManager(cookieRememberMeManager());
         return defaultWebSecurityManager;
     }
 
@@ -65,6 +72,7 @@ public class ShiroConfig {
      * ssl：比如/admins/user/**=ssl没有参数，表示安全的url请求，协议为https
      * user：比如/admins/user/**=user没有参数表示必须存在用户，当登入操作时不做检查
      * 详情见文档 http://shiro.apache.org/web.html#urls-
+     *
      * @param securityManager
      * @return org.apache.shiro.spring.web.ShiroFilterFactoryBean
      * @author dolyw.com
@@ -80,6 +88,8 @@ public class ShiroConfig {
         factoryBean.setSecurityManager(securityManager);
         // 自定义url规则使用LinkedHashMap有序Map
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>(16);
+        //登录接口
+         filterChainDefinitionMap.put("/api/user/login", "anon");
         // Swagger接口文档
         // filterChainDefinitionMap.put("/v2/api-docs", "anon");
         // filterChainDefinitionMap.put("/webjars/**", "anon");
@@ -117,4 +127,16 @@ public class ShiroConfig {
         advisor.setSecurityManager(securityManager);
         return advisor;
     }
+
+//    https://blog.csdn.net/yy417168602/article/details/88812097 加此段代码的原因
+//    @Bean
+//    public CookieRememberMeManager cookieRememberMeManager() {
+//        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
+//        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+//        simpleCookie.setMaxAge(259200000);
+//        cookieRememberMeManager.setCookie(simpleCookie);
+//        cookieRememberMeManager.setCipherKey(Base64.decode("6ZmI6I2j5Y+R5aSn5ZOlAA=="));
+//        return cookieRememberMeManager;
+//    }
+
 }

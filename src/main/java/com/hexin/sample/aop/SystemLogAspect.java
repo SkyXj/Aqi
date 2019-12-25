@@ -1,12 +1,18 @@
 package com.hexin.sample.aop;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hexin.sample.annotation.SystemControllerLog;
 import com.hexin.sample.annotation.SystemServiceLog;
 import com.hexin.sample.entity.Action;
+import com.hexin.sample.mapper.UserMapper;
+import com.hexin.sample.model.UserDto;
+import com.hexin.sample.model.common.Constant;
 import com.hexin.sample.model.entity.User;
 import com.hexin.sample.service.ActionService;
+import com.hexin.sample.util.JwtUtil;
 import com.hexin.sample.util.common.IpUtils;
+import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
@@ -38,6 +44,9 @@ public class SystemLogAspect {
     //注入Service用于把日志保存数据库，实际项目入库采用队列做异步
     @Autowired
     private ActionService actionService;
+
+    @Autowired
+    private UserMapper userMapper;
     //本地异常日志记录对象
     private static final Logger logger = LoggerFactory.getLogger(SystemLogAspect.class);
     //Service层切点
@@ -60,16 +69,21 @@ public class SystemLogAspect {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession();
         //读取session中的用户
-        User user = (User) session.getAttribute("user");
-
+//        User user = (User) session.getAttribute("user");
+        String token = (String) SecurityUtils.getSubject().getPrincipal();
+        String account = JwtUtil.getClaim(token, Constant.ACCOUNT);
         String ip = IpUtils.getIpAddr(request);
-
+        UserDto userDto = new UserDto();
+        userDto.setAccount(account);
+        QueryWrapper<UserDto> wrapper=new QueryWrapper<>();
+        wrapper.eq("account",account);
+        userDto = userMapper.selectOne(wrapper);
         try {
             //*========控制台输出=========*//
             System.out.println("==============前置通知开始==============");
             System.out.println("请求方法" + (joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName()));
             System.out.println("方法描述：" + getControllerMethodDescription(joinPoint));
-            System.out.println("请求人："+user.getUsername());
+            System.out.println("请求人："+userDto.getUsername());
             System.out.println("请求ip："+ip);
 
             //*========数据库日志=========*//
@@ -77,7 +91,7 @@ public class SystemLogAspect {
             action.setActionDes(getControllerMethodDescription(joinPoint));
             action.setActionType("0");
             action.setActionIp(ip);
-            action.setUserId(user.getId());
+            action.setUserId(userDto.getId());
             action.setActionTime(new Date());
             //保存数据库
             actionService.save(action);
