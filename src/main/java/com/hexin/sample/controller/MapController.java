@@ -3,12 +3,15 @@ package com.hexin.sample.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.hexin.sample.entity.Line;
+import com.hexin.sample.service.ILineService;
 import com.hexin.sample.service.IMapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -24,6 +27,9 @@ public class MapController {
 
     @Autowired
     IMapService mapService;
+
+    @Autowired
+    ILineService lineService;
 
     @GetMapping("/getMap")
     public List<String> getMap(String strategy){
@@ -54,6 +60,10 @@ public class MapController {
             }
             road_details.substring(0,road_details.length()-2);
             result.add(path.getString("strategy")+":"+hours+"小时"+minutes+"分;路线："+road_details);
+
+            Line line=new Line();
+            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            lineService.insert(line);
         }
         return result;
     }
