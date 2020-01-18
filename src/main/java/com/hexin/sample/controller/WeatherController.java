@@ -13,6 +13,7 @@
 
 package com.hexin.sample.controller;
 
+import com.hexin.sample.entity.Row;
 import com.hexin.sample.entity.Weather;
 import com.hexin.sample.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,5 +58,12 @@ public class WeatherController{
 		String time=((endTime-startTime)/1000)+"s";
 		System.out.println(time);
 		return time;
+	}
+
+	@GetMapping("/getAqiByCityName")
+	public List<Row> getAqiByCityName(@RequestParam(value="cityname") String cityname){
+		//获得当前时间
+		List<Row> rows = weatherService.getRowByCityName(cityname);
+		return rows;
 	}
 }

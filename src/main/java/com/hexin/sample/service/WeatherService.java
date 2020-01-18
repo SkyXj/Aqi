@@ -15,6 +15,7 @@ package com.hexin.sample.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hexin.sample.entity.Row;
 import com.hexin.sample.entity.Weather;
 
 import java.util.List;
@@ -30,6 +31,8 @@ public interface WeatherService extends IService<Weather> {
 	boolean insertWeather(Weather weather);
 
 	void insertByCity(String cityname);
+
+	List<Row> getRowByCityName(String cityname);
 
 	void test();
 

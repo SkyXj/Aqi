@@ -187,6 +187,58 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
     }
 
     @Override
+    public List<Row> getRowByCityName(String cityname) {
+        System.out.println("正在查询："+cityname);
+        long startTime=System.currentTimeMillis();
+        try {
+            String param = decode.GetParam(cityname);
+            String result=getServerData(param);
+            //解密
+            String miwen=decode.DecodeData(result);
+            //json化
+            HttpResult httpResult= JSON.parseObject(miwen,HttpResult.class);
+            //存入mysql数据库
+            if(httpResult==null||httpResult.getResult()==null){
+                log.error(TimeTool.Now()+" "+cityname+" 导入数据失败;httpResult为空,疑似网络原因");
+                return null;
+            }
+            Data data = httpResult.getResult().getData();
+            if(data ==null){
+                return null;
+            }
+            Cityinfo cityinfo=data.getCityinfo();
+            String cityid="";
+            if(cityinfo!=null&&cityinfo.getCityname()!=null){
+                boolean b1 = cityinfoService.insertCityinfo(cityinfo);
+            }else{
+                cityinfo=new Cityinfo();
+                cityinfo.setCityname(cityname);
+                boolean b1 = cityinfoService.insertCityinfo(cityinfo);
+            }
+            cityid=cityinfo.getCityid();
+
+            Aqi aqi = data.getAqi();
+            if(aqi!=null&&aqi.getTime()!=null){
+                influxDBService.insertAqi(aqi,cityid);
+//                boolean b = aqiService.insetAqi(aqi);
+            }
+
+            Weather weather=data.getWeather();
+            weather.setCityid(cityinfo==null?null:cityinfo.getCityid());
+            if(weather!=null&&weather.getWeather()!=null&&weather.getCityid()!=null){
+                influxDBService.insertWeather(weather);
+//                boolean b2 = insertWeather(weather);
+            }
+            List<Row> row=data.getRows();
+            return row;
+        }catch (Exception e){
+            log.error(TimeTool.Now()+" "+cityname+" 导入数据失败");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public void test() {
         influxDBService.insertRow();
     }
@@ -207,7 +259,8 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
         try {
             Data data=new Data();
             Map<String,String> map=new HashMap<>();
-            map.put("d",param);
+//            map.put("d",param);
+            map.put("hb5D8eUNe",param);
             Connection.Response post = HttpUtils2.post(url, map);
             String result = UnicodeUtils.decodeUnicode(IOUtils.toString(post.bodyStream(), StandardCharsets.UTF_8));
             return result;
