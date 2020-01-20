@@ -8,5 +8,9 @@ package com.hexin.sample.service;
  * @Version 1.0
  */
 public interface IMapService {
-    String getMap(String strategy);
+    String getMap(Integer strategy);
+
+    void insert(Integer strategy);
+
+    void inserts();
 }

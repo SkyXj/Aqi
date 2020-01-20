@@ -21,9 +21,19 @@ public class Line {
     @TableId(type= IdType.AUTO)
     private Integer id;
     @TableField("strategy")
-    private String strategy;
-    @TableField("time")
-    private String time;
+    private Integer strategy;
+    @TableField("created_time")
+    private String createdTime;
     @TableField("road")
     private String road;
+    @TableField("duration")
+    private Integer duration;
+    @TableField("time")
+    private String time;
+    @TableField("distance")
+    private Integer distance;
+    @TableField("tolls")
+    private String tolls;
+    @TableField("description")
+    private String description;
 }

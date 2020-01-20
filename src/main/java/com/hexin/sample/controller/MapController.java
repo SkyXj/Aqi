@@ -32,9 +32,8 @@ public class MapController {
     ILineService lineService;
 
     @GetMapping("/getMap")
-    public List<String> getMap(String strategy){
+    public List<String> getMap(Integer strategy){
         List<String> result=new ArrayList<>();
-
         String map = mapService.getMap(strategy);
         JSONObject jsonObject = JSONObject.parseObject(map);
         JSONObject route = jsonObject.getJSONObject("route");
@@ -63,6 +62,11 @@ public class MapController {
 
             Line line=new Line();
             SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            line.setRoad(road_details);
+            line.setStrategy(strategy);
+            line.setCreatedTime(simpleDateFormat.format(new Date()));
+            line.setTime(hours+"小时"+minutes+"分");
+            line.setDuration(duration);
             lineService.insert(line);
         }
         return result;

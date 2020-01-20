@@ -1,6 +1,8 @@
 package com.hexin.sample.ScheduleTask;
 
+import com.hexin.sample.service.IMapService;
 import com.hexin.sample.service.WeatherService;
+import com.hexin.sample.service.impl.MapServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +20,14 @@ public class WeatherTask {
     @Value("${aqi.run.task}")
     boolean isruntask;
 
+    @Value("${aqi.run.roadTask}")
+    boolean roadTask;
+
     @Autowired
     WeatherService weatherService;
+
+    @Autowired
+    IMapService mapService;
 
     //3.添加定时任务
     //@Scheduled(cron = "0/5 * * * * ?")
@@ -27,7 +35,15 @@ public class WeatherTask {
     @Scheduled(fixedRate = 1000*60*20)
     private void Point_Aqi_Tasks() {
         if(isruntask){
-            weatherService.insertData();
+//            weatherService.insertData();
+            System.out.println("sdfasdf");
+        }
+    }
+
+    @Scheduled(fixedRate = 1000*60*20)
+    private void roadline() {
+        if(roadTask){
+            mapService.inserts();
         }
     }
 
